@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState} from 'react'
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png'
+import logo from '../assets/images/loginimage/Frame 5.png'
+import imageright from '../assets/images/loginimage/loginpage-image.png'
 
 const Loginpage = () => {
     const [email, setemail] = useState("")
@@ -23,10 +25,10 @@ const Loginpage = () => {
                             className="flex flex-col  order-2  lg:order-1 px-6 lg:px-0  lg:justify-center  py-6 max-w-3xl   min-auto w-full ">
                             <div className="grid gap-[37px] ">
                                 <div className="flex items-center gap-[19.59px]   ">
-                                    <div className="bg-blue-600 p-2 rounded-[19.59px] hidden lg:block "> 
-                                  {/* <a href=""><img  src= {frmaes}
+                                    <div className=" p-2 rounded-[19.59px] hidden lg:block "> 
+                                  <a href=""><img  src= {logo}
                                             className="text-white   h-[57.47px] w-[57.47px]" fill="none"
-                                             stroke="currentColor" viewBox="0 0 24 24" alt="Toggle visibility"/></a>  */}
+                                             stroke="currentColor" viewBox="0 0 24 24" alt="Toggle visibility"/></a> 
                                      </div> 
                                     <h1 className="text-3xl font-bold text-gray-900 hidden lg:block  lg:text-[34.29px]">PersonaHub
                                     </h1>
@@ -105,9 +107,9 @@ const Loginpage = () => {
 
 
                         <div className=" order-1 lg:order-2 lg:block pt-0 lg:pt-6 w-full h-auto lg:h-[calc(100vh-48px)] ">
-                            {/* <img alt="Woman with futuristic touchscreen" className=" rounded-[16px] w-full h-[300px] hidden sm:h-[400px] lg:h-full lg:w-full lg:block
+                            <img alt="Woman with futuristic touchscreen" className=" rounded-[16px] w-full h-[300px] hidden sm:h-[400px] lg:h-full lg:w-full lg:block
 
-                 object-cover " src={eye_icon} /> */}
+                 object-cover " src={imageright} />
                 
                             <imges alt="login" className=" block   w-full lg:hidden  " src="./loginimage/image 4.svg" />
                         </div>
