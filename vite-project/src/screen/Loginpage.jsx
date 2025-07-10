@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState} from 'react'
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png'
+import eye_icon1 from '../assets/images/loginimage/96433_eye_512x512.png'
 import logo from '../assets/images/loginimage/Frame 5.png'
 import imageright from '../assets/images/loginimage/loginpage-image.png'
 
@@ -66,7 +67,7 @@ const Loginpage = () => {
                                                 src={
                                                     showPassword
                                                         ? eye_icon
-                                                        : eye_icon
+                                                        : eye_icon1
                                                 }
                                                 alt="Toggle visibility"
                                                 className="w-5 h-5"
