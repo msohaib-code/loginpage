@@ -4,8 +4,8 @@ import Signuppage from './screen/signuppage'
 const App = () => {
   return (
     <div>
-      <Loginpage/>
-{/* <Signuppage/> */}
+      {/* <Loginpage/> */}
+<Signuppage/>
     </div>
   )
 }
