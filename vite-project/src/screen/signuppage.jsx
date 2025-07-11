@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useState} from 'react'
+import { Link } from 'react-router-dom'
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png'
 import logo from '../assets/images/loginimage/Frame 5.png'
 import imageright from '../assets/images/loginimage/loginpage-image.png'
@@ -19,7 +20,7 @@ const Signuppage
     }
 
     return (
-        <div >
+        <div id>
 
             <div className="container mx-auto  min-h-screen overflow-hidden ">
                 <main className="bg-white text-gray-800 w-full lg:px-6  ">
@@ -111,7 +112,7 @@ const Signuppage
                             </div>
 
                             <p className="text-center text-sm mt-4 md-pt-0 xl:pt-14">
-                                Don’t have an account? <a className="text-[#3B82F6] hover:underline" href="#">Sign in</a>
+                                Don’t have an account? <Link className="text-[#3B82F6] hover:underline" to="/login">Sign in</Link>
                             </p>
                         </div>
 

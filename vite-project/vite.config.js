@@ -12,5 +12,8 @@ import react from '@vitejs/plugin-react'
 // ✅ NO tailwindcss here
 export default defineConfig({
   plugins: [react()],
+   server: {
+    // historyApiFallback: true
+  }
 })
 

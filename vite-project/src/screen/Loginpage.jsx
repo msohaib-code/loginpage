@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState} from 'react'
+import { Link } from 'react-router-dom'
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png'
 import eye_icon1 from '../assets/images/loginimage/96433_eye_512x512.png'
 import logo from '../assets/images/loginimage/Frame 5.png'
@@ -102,7 +103,7 @@ const Loginpage = () => {
                             </div>
 
                             <p className="text-center text-sm mt-4 md-pt-0 xl:pt-14">
-                                Don’t have an account? <a className="text-[#3B82F6] hover:underline" href="signuppage">Sign up</a>
+                                Don’t have an account? <Link className="text-[#3B82F6] hover:underline" to="/signup">Sign up</Link>
                             </p>
                         </div>
 
