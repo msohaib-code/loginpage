@@ -18,7 +18,6 @@ const Loginpage = () => {
 
     return (
         <div>
-
             <div className="container mx-auto  min-h-screen overflow-hidden ">
                 <main className="bg-white text-gray-800 w-full lg:px-6  ">
                     <div className="grid grid-cols-1 lg:grid-cols-2   lg:gap-10 ">
@@ -45,7 +44,7 @@ const Loginpage = () => {
                             <form className="mt-[60px] " onSubmit={handclick} autoComplete="off" >
                                 <div className="gap-4 grid">
                                     <div>
-                                        <label className="block text-sm font-medium" for="email">Email</label>
+                                  <label className="block text-sm font-medium" for="email">Email</label>
                                         <input value={email} onChange={e => setemail(e.target.value)} className="mt-1 h-[40px] lg:h-[50px] w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2
                  focus:ring-blue-500"   id="login_email_field"
                                             name="login_email_field" placeholder="Enter your email" type="email" autoComplete="off" />
