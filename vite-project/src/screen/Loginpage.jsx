@@ -56,9 +56,7 @@ const Loginpage = () => {
                                             id="password" name="password" placeholder="Enter your password"
                                             type={showPassword ? "text" : "password"}
                                             autoComplete="off" />
-                                        {/* <div className="absolute inset-y-0 right-3 top-2 flex items-center cursor-pointer">
-                                            <imges alt="icon-eye" src="./loginimage/iconoir_eye.png" />
-                                        </div> */}
+                                        
                                         <div
                                             className="absolute inset-y-0 right-3 top-2 flex items-center cursor-pointer"
                                             onClick={() => setShowPassword((pre) => !pre)}
