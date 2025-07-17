@@ -1,5 +1,7 @@
 import React from 'react'
-import { useState} from 'react'
+import { useState } from 'react'
+import axios from 'axios';
+
 import { Link } from 'react-router-dom'
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png'
 import eye_icon1 from '../assets/images/loginimage/96433_eye_512x512.png'
@@ -11,10 +13,40 @@ const Loginpage = () => {
     const [password, setpassword] = useState("")
     const [showPassword, setShowPassword] = useState(false);
 
-    const handclick = (e) => {
-        e.preventDefault()
-        console.log([email, password])
-    }
+    const handclick = async (e) => {
+        e.preventDefault();
+        const payload = {
+            email,
+            password
+        }
+        try {
+            const response = await axios.post(
+                'https://tl-copilot-api-gateway.hubextech.com/api/user/auth/login',
+                payload
+
+            );
+            console.log("Sending payload:", payload);
+
+            const { accessToken, refreshToken, user } = response.data.data;
+
+
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            console.log("Login successful", user);
+
+
+            alert("Login successful");
+
+
+
+        } catch (error) {
+            console.error("Login failed:", error.response?.data || error.message);
+            alert("Login failed: " + (error.response?.data?.message || error.message));
+        }
+    };
+
 
     return (
         <div>
@@ -26,11 +58,11 @@ const Loginpage = () => {
                             className="flex flex-col  order-2  lg:order-1 px-6 lg:px-0  lg:justify-center  py-6 max-w-3xl   min-auto w-full ">
                             <div className="grid gap-[37px] ">
                                 <div className="flex items-center gap-[19.59px]   ">
-                                    <div className=" p-2 rounded-[19.59px] hidden lg:block "> 
-                                  <a href=""><img  src= {logo}
+                                    <div className=" p-2 rounded-[19.59px] hidden lg:block ">
+                                        <a href=""><img src={logo}
                                             className="text-white   h-[57.47px] w-[57.47px]" fill="none"
-                                             stroke="currentColor" viewBox="0 0 24 24" alt="Toggle visibility"/></a> 
-                                     </div> 
+                                            stroke="currentColor" viewBox="0 0 24 24" alt="Toggle visibility" /></a>
+                                    </div>
                                     <h1 className="text-3xl font-bold text-gray-900 hidden lg:block  lg:text-[34.29px]">PersonaHub
                                     </h1>
                                 </div>
@@ -44,7 +76,7 @@ const Loginpage = () => {
                             <form className="mt-[60px] " onSubmit={handclick} autoComplete="off" >
                                 <div className="gap-4 grid">
                                     <div>
-                                  <label className="block text-sm font-medium" for="email">Email</label>
+                                        <label className="block text-sm font-medium" for="email">Email</label>
                                         <input value={email} onChange={e => setemail(e.target.value)} className="mt-1 h-[40px] lg:h-[50px] w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2
                  focus:ring-blue-500"   id="login_email_field"
                                             name="login_email_field" placeholder="Enter your email" type="email" autoComplete="off" />
@@ -56,7 +88,7 @@ const Loginpage = () => {
                                             id="password" name="password" placeholder="Enter your password"
                                             type={showPassword ? "text" : "password"}
                                             autoComplete="off" />
-                                        
+
                                         <div
                                             className="absolute inset-y-0 right-3 top-2 flex items-center cursor-pointer"
                                             onClick={() => setShowPassword((pre) => !pre)}
@@ -109,12 +141,12 @@ const Loginpage = () => {
                             <img alt="Woman with futuristic touchscreen" className=" rounded-[16px] w-full h-[300px] hidden sm:h-[400px] lg:h-full lg:w-full lg:block
 
                  object-cover " src={imageright} />
-                
+
                             <imges alt="login" className=" block   w-full lg:hidden  " src="./loginimage/image 4.svg" />
                         </div>
 
                     </div>
-                    
+
                 </main>
             </div>
 
