@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios';
+import axiosInstance from '../api/ axiosInstance.js';
+import { useNavigate } from 'react-router-dom';
 
 import { Link } from 'react-router-dom'
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png'
@@ -9,6 +11,7 @@ import logo from '../assets/images/loginimage/Frame 5.png'
 import imageright from '../assets/images/loginimage/loginpage-image.png'
 
 const Loginpage = () => {
+    const navigate = useNavigate();
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const [showPassword, setShowPassword] = useState(false);
@@ -16,16 +19,13 @@ const Loginpage = () => {
     const handclick = async (e) => {
         e.preventDefault();
         const payload = {
-            email,
+            email, 
             password
         }
         try {
-            const response = await axios.post(
-                'https://tl-copilot-api-gateway.hubextech.com/api/user/auth/login',
-                payload
-
-            );
-            console.log("Sending payload:", payload);
+            const response =
+                await axiosInstance.post('/user/auth/login', payload);
+            
 
             const { accessToken, refreshToken, user } = response.data.data;
 
@@ -33,17 +33,11 @@ const Loginpage = () => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('user', JSON.stringify(user));
-
-            console.log("Login successful", user);
-
-
-            alert("Login successful");
-
-
+            navigate('/home');
 
         } catch (error) {
             console.error("Login failed:", error.response?.data || error.message);
-            alert("Login failed: " + (error.response?.data?.message || error.message));
+          
         }
     };
 

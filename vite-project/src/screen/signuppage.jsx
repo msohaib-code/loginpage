@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import axiosInstance from '../api/ axiosInstance.js';
+
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png';
 import logo from '../assets/images/loginimage/Frame 5.png';
 import imageright from '../assets/images/loginimage/loginpage-image.png';
@@ -23,15 +25,12 @@ const Signuppage = () => {
     password,
   };
 
-  console.log("Sending payload:", payload); 
+
 
   try {
-    const response = await axios.post(
-      "https://tl-copilot-api-gateway.hubextech.com/api/user/auth/signup",
-      payload
-    );
+    const response = await axiosInstance.post('/user/auth/signup', payload);
 
-    console.log("Signup successful", response.data);
+   
   } catch (error) {
     console.error("Signup failed:", error.response?.data || error.message);
   }
