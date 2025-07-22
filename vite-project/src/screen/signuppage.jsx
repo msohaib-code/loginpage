@@ -1,12 +1,11 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import axiosInstance from "../api/ axiosInstance.js";
 
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import axiosInstance from '../api/ axiosInstance.js';
-
-import eye_icon from '../assets/images/loginimage/iconoir_eye.png';
-import logo from '../assets/images/loginimage/Frame 5.png';
-import imageright from '../assets/images/loginimage/loginpage-image.png';
+import eye_icon from "../assets/images/loginimage/iconoir_eye.png";
+import logo from "../assets/images/loginimage/Frame 5.png";
+import imageright from "../assets/images/loginimage/loginpage-image.png";
 
 const Signuppage = () => {
   const [email, setEmail] = useState("");
@@ -16,26 +15,21 @@ const Signuppage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handclick = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const payload = {
-    firstName,
-    lastName,
-    email,
-    password,
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+
+    try {
+      const response = await axiosInstance.post("/user/auth/signup", payload);
+    } catch (error) {
+      console.error("Signup failed:", error.response?.data || error.message);
+    }
   };
-
-
-
-  try {
-    const response = await axiosInstance.post('/user/auth/signup', payload);
-
-   
-  } catch (error) {
-    console.error("Signup failed:", error.response?.data || error.message);
-  }
-};
-
 
   return (
     <div>
@@ -70,10 +64,16 @@ const Signuppage = () => {
               </div>
 
               {/* Form */}
-              <form className="mt-[60px]" onSubmit={handclick} autoComplete="off">
+              <form
+                className="mt-[60px]"
+                onSubmit={handclick}
+                autoComplete="off"
+              >
                 <div className="gap-4 grid">
                   <div>
-                    <label className="block text-sm font-medium">First Name</label>
+                    <label className="block text-sm font-medium">
+                      First Name
+                    </label>
                     <input
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
@@ -85,7 +85,9 @@ const Signuppage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium">Last Name</label>
+                    <label className="block text-sm font-medium">
+                      Last Name
+                    </label>
                     <input
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
@@ -97,7 +99,12 @@ const Signuppage = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium" htmlFor="email">Email</label>
+                    <label
+                      className="block text-sm font-medium"
+                      htmlFor="email"
+                    >
+                      Email
+                    </label>
                     <input
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -112,7 +119,12 @@ const Signuppage = () => {
                   </div>
 
                   <div className="relative">
-                    <label className="block text-sm font-medium" htmlFor="password">Password</label>
+                    <label
+                      className="block text-sm font-medium"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
                     <input
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -134,7 +146,10 @@ const Signuppage = () => {
                         className="w-5 h-5"
                       />
                     </div>
-                    <a className="text-xs text-right block text-gray-500 hover:underline mt-1" href="#">
+                    <a
+                      className="text-xs text-right block text-gray-500 hover:underline mt-1"
+                      href="#"
+                    >
                       Forgot Password?
                     </a>
                   </div>
@@ -151,7 +166,9 @@ const Signuppage = () => {
               {/* Social Signin */}
               <div className="mt-[32px] flex items-center">
                 <hr className="flex-grow border-gray-300" />
-                <span className="mx-4 text-gray-400 text-sm">Or Continue With</span>
+                <span className="mx-4 text-gray-400 text-sm">
+                  Or Continue With
+                </span>
                 <hr className="flex-grow border-gray-300" />
               </div>
               <div className="flex justify-center gap-[16px] mt-[28px]">
