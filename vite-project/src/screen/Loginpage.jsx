@@ -1,22 +1,49 @@
 import React from 'react'
-import { useState} from 'react'
+import { useState } from 'react'
+import axios from 'axios';
+import axiosInstance from '../api/ axiosInstance.js';
+import { useNavigate } from 'react-router-dom';
+
+import { Link } from 'react-router-dom'
 import eye_icon from '../assets/images/loginimage/iconoir_eye.png'
+import eye_icon1 from '../assets/images/loginimage/96433_eye_512x512.png'
 import logo from '../assets/images/loginimage/Frame 5.png'
 import imageright from '../assets/images/loginimage/loginpage-image.png'
 
 const Loginpage = () => {
+    const navigate = useNavigate();
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const [showPassword, setShowPassword] = useState(false);
 
-    const handclick = (e) => {
-        e.preventDefault()
-        console.log([email, password])
-    }
+    const handclick = async (e) => {
+        e.preventDefault();
+        const payload = {
+            email, 
+            password
+        }
+        try {
+            const response =
+                await axiosInstance.post('/user/auth/login', payload);
+            
+
+            const { accessToken, refreshToken, user } = response.data.data;
+
+
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('user', JSON.stringify(user));
+            navigate('/home');
+
+        } catch (error) {
+            console.error("Login failed:", error.response?.data || error.message);
+          
+        }
+    };
+
 
     return (
         <div>
-
             <div className="container mx-auto  min-h-screen overflow-hidden ">
                 <main className="bg-white text-gray-800 w-full lg:px-6  ">
                     <div className="grid grid-cols-1 lg:grid-cols-2   lg:gap-10 ">
@@ -25,11 +52,11 @@ const Loginpage = () => {
                             className="flex flex-col  order-2  lg:order-1 px-6 lg:px-0  lg:justify-center  py-6 max-w-3xl   min-auto w-full ">
                             <div className="grid gap-[37px] ">
                                 <div className="flex items-center gap-[19.59px]   ">
-                                    <div className=" p-2 rounded-[19.59px] hidden lg:block "> 
-                                  <a href=""><img  src= {logo}
+                                    <div className=" p-2 rounded-[19.59px] hidden lg:block ">
+                                        <a href=""><img src={logo}
                                             className="text-white   h-[57.47px] w-[57.47px]" fill="none"
-                                             stroke="currentColor" viewBox="0 0 24 24" alt="Toggle visibility"/></a> 
-                                     </div> 
+                                            stroke="currentColor" viewBox="0 0 24 24" alt="Toggle visibility" /></a>
+                                    </div>
                                     <h1 className="text-3xl font-bold text-gray-900 hidden lg:block  lg:text-[34.29px]">PersonaHub
                                     </h1>
                                 </div>
@@ -55,9 +82,7 @@ const Loginpage = () => {
                                             id="password" name="password" placeholder="Enter your password"
                                             type={showPassword ? "text" : "password"}
                                             autoComplete="off" />
-                                        {/* <div className="absolute inset-y-0 right-3 top-2 flex items-center cursor-pointer">
-                                            <imges alt="icon-eye" src="./loginimage/iconoir_eye.png" />
-                                        </div> */}
+
                                         <div
                                             className="absolute inset-y-0 right-3 top-2 flex items-center cursor-pointer"
                                             onClick={() => setShowPassword((pre) => !pre)}
@@ -66,7 +91,7 @@ const Loginpage = () => {
                                                 src={
                                                     showPassword
                                                         ? eye_icon
-                                                        : eye_icon
+                                                        : eye_icon1
                                                 }
                                                 alt="Toggle visibility"
                                                 className="w-5 h-5"
@@ -101,7 +126,7 @@ const Loginpage = () => {
                             </div>
 
                             <p className="text-center text-sm mt-4 md-pt-0 xl:pt-14">
-                                Don’t have an account? <a className="text-[#3B82F6] hover:underline" href="signuppage">Sign up</a>
+                                Don’t have an account? <Link className="text-[#3B82F6] hover:underline" to="/signup">Sign up</Link>
                             </p>
                         </div>
 
@@ -110,12 +135,12 @@ const Loginpage = () => {
                             <img alt="Woman with futuristic touchscreen" className=" rounded-[16px] w-full h-[300px] hidden sm:h-[400px] lg:h-full lg:w-full lg:block
 
                  object-cover " src={imageright} />
-                
+
                             <imges alt="login" className=" block   w-full lg:hidden  " src="./loginimage/image 4.svg" />
                         </div>
 
                     </div>
-                    
+
                 </main>
             </div>
 

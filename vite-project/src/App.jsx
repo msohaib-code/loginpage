@@ -1,34 +1,34 @@
-import React from 'react'
-import Loginpage from './screen/Loginpage'
-import Signuppage from './screen/signuppage'
+
+
+
+import React from 'react';
+import {  Routes, Route } from 'react-router-dom';
+import Loginpage from './screen/Loginpage';
+import Signuppage from './screen/signuppage';
+import Homepage from './screen/Homepage';
+import PrivateRoute from './routes/PrivateRoute';
+
 const App = () => {
   return (
-    <div>
-      <Loginpage/>
-{/* <Signuppage/> */}
-    </div>
-  )
-}
 
-export default App
+      <Routes>
+        <Route path="/" element={<Signuppage />} />
+        
+        <Route path="/signup" element={<Signuppage />} />
+        <Route path="/login" element={<Loginpage />} />
 
+     
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Homepage />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+   
+  );
+};
 
-// import { useState } from 'react';
-// import LoginPage from './screen/Loginpage';
-// import SignupPage from './screen/signuppage';
-
-// const App = () => {
-//   const [page, setPage] = useState('login'); // 'login' or 'signup'
-
-//   return (
-//     <div>
-//       {page === 'login' ? (
-//         <LoginPage goToSignup={() => setPage('signup')} />
-//       ) : (
-//         <SignupPage goToLogin={() => setPage('login')} />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default App;
+export default App;
