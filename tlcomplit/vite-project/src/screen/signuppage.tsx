@@ -1,23 +1,37 @@
 import React, { useState } from "react";
-import axios from "axios";
+import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
-import axiosInstance from "../api/ axiosInstance.js";
+import axiosInstance from "../api/ axiosInstance";
 
 import eye_icon from "../assets/images/loginimage/iconoir_eye.png";
 import logo from "../assets/images/loginimage/Frame 5.png";
 import imageright from "../assets/images/loginimage/loginpage-image.png";
 
-const Signuppage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
-  const handclick = async (e) => {
+type SignupPayload = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
+
+
+type SignupResponse = {
+  message: string;
+  userId?: string;
+};
+
+const Signuppage: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handclick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const payload = {
+    const payload: SignupPayload = {
       firstName,
       lastName,
       email,
@@ -25,12 +39,15 @@ const Signuppage = () => {
     };
 
     try {
-      const response = await axiosInstance.post("/user/auth/signup", payload);
-    } catch (error) {
+      const response = await axiosInstance.post<SignupResponse>(
+        "/user/auth/signup",
+        payload
+      );
+      console.log("Signup successful:", response.data);
+    } catch (error: any) {
       console.error("Signup failed:", error.response?.data || error.message);
     }
   };
-
   return (
     <div>
       <div className="container mx-auto min-h-screen overflow-hidden">
