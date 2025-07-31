@@ -32,7 +32,7 @@ const Signuppage: React.FC = () => {
     e.preventDefault();
 
     const payload: SignupPayload = {
-      firstName,
+      firstName,  
       lastName,
       email,
       password,
