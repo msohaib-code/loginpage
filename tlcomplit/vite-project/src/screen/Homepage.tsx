@@ -1,25 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import axiosInstance from '../api/ axiosInstance'; // ✅ removed extra space
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../api/ axiosInstance";
+
+interface PersonaDetail {
+  details: string[];
+}
 
 interface UserData {
-  id: number;
+  _id: string;
+  userId: string;
+  type: string;
   name: string;
-  email?: string;
+  title: string;
+  description: string;
+  jobStatus: string;
+  createdAt: string;
+  updatedAt: string;
+  demographicsAndPsychographics: PersonaDetail;
+  industryAttributesAndTrends: PersonaDetail;
+  professionalGoalsAndChallenges: PersonaDetail;
+  personalGoalsAndChallenges: PersonaDetail;
+  beliefsAndValues: PersonaDetail;
+  communicationPreferences: PersonaDetail;
+  customersAndStakeholders: PersonaDetail;
 }
 
 const Homepage: React.FC = () => {
   const [userData, setUserData] = useState<UserData[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true); 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const res = await axiosInstance.get<UserData[]>('/core/personas');
-        setUserData(res.data);
-        
+        const res = await axiosInstance.get("/core/personas");
+        console.log("Full response:", res);
+        console.log("res.data:", res.data);
+
+        const personas = res.data.data.personas;
+
+        if (!Array.isArray(personas)) {
+          console.error("Invalid or missing personas:", personas);
+          setUserData([]);
+          return;
+        }
+
+        setUserData(personas);
       } catch (err) {
-        console.error('Error fetching protected data', err);
-        setUserData([]); 
+        console.error("Error fetching protected data", err);
+        setUserData([]);
       } finally {
         setIsLoading(false);
       }
@@ -40,13 +67,33 @@ const Homepage: React.FC = () => {
         {isLoading ? (
           <p className="text-blue-500">Loading...</p>
         ) : userData && userData.length > 0 ? (
-          <ul className="list-disc pl-6 space-y-2">
+          
+          <ul className="space-y-4 list-none">
             {userData.map((user) => (
-              <li key={user.id} className="text-gray-800">
-                <span className="font-semibold">{user.name}</span>
-                {user.email && (
-                  <span className="text-gray-500"> – {user.email}</span>
-                )}
+              <li key={user._id} className="border p-4 rounded-lg shadow">
+                <h3 className="text-xl font-bold">{user.name}</h3>
+                <p className="mt-2">{user.jobStatus}</p>
+                <p className="text-sm text-gray-600">{user.title}</p>
+                <p className="mt-2">{user.description}</p>
+                <div>
+                  <h4>Demographics & Psychographics</h4>
+                  <ul>
+                    beliefsAndValues
+                    {user.demographicsAndPsychographics.details.map(
+                      (item, idx) => (
+                        <li key={idx}>{item}</li>
+                      )
+                    )}
+                  </ul>
+                </div>
+                <div>
+                  <h4>Beliefs & Values</h4>
+                  <ul>
+                    {user.beliefsAndValues.details.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
               </li>
             ))}
           </ul>
