@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../api/ axiosInstance";
-
 interface PersonaDetail {
   details: string[];
 }
-
-interface UserData {
+interface userPersona {
   _id: string;
   userId: string;
   type: string;
@@ -25,11 +23,11 @@ interface UserData {
 }
 
 const Homepage: React.FC = () => {
-  const [userData, setUserData] = useState<UserData[] | null>(null);
+  const [userPersona, setuserPersona] = useState<userPersona[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const getUserData = async () => {
+    const getuserPersona = async () => {
       try {
         const res = await axiosInstance.get("/core/personas");
         console.log("Full response:", res);
@@ -39,20 +37,20 @@ const Homepage: React.FC = () => {
 
         if (!Array.isArray(personas)) {
           console.error("Invalid or missing personas:", personas);
-          setUserData([]);
+          setuserPersona([]);
           return;
         }
 
-        setUserData(personas);
+        setuserPersona(personas);
       } catch (err) {
         console.error("Error fetching protected data", err);
-        setUserData([]);
+        setuserPersona([]);
       } finally {
         setIsLoading(false);
       }
     };
 
-    getUserData();
+    getuserPersona();
   }, []);
 
   return (
@@ -66,10 +64,10 @@ const Homepage: React.FC = () => {
       <div className="mt-6">
         {isLoading ? (
           <p className="text-blue-500">Loading...</p>
-        ) : userData && userData.length > 0 ? (
-          
+        ) : userPersona && userPersona.length > 0 ? (
+
           <ul className="space-y-4 list-none">
-            {userData.map((user) => (
+            {userPersona.map((user) => (
               <li key={user._id} className="border p-4 rounded-lg shadow">
                 <h3 className="text-xl font-bold">{user.name}</h3>
                 <p className="mt-2">{user.jobStatus}</p>
@@ -106,3 +104,4 @@ const Homepage: React.FC = () => {
 };
 
 export default Homepage;
+
