@@ -1,9 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../api/ axiosInstance";
+
 interface PersonaDetail {
   details: string[];
 }
-interface userPersona {
+
+interface UserPersona {
   _id: string;
   userId: string;
   type: string;
@@ -23,34 +26,30 @@ interface userPersona {
 }
 
 const Homepage: React.FC = () => {
-  const [userPersona, setuserPersona] = useState<userPersona[] | null>(null);
+  const [userPersona, setUserPersona] = useState<UserPersona[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const getuserPersona = async () => {
+    const getUserPersona = async () => {
       try {
         const res = await axiosInstance.get("/core/personas");
-        console.log("Full response:", res);
-        console.log("res.data:", res.data);
+        const personas = res.data?.data?.personas;
 
-        const personas = res.data.data.personas;
-
-        if (!Array.isArray(personas)) {
-          console.error("Invalid or missing personas:", personas);
-          setuserPersona([]);
-          return;
+        if (Array.isArray(personas)) {
+          setUserPersona(personas);
+        } else {
+          console.error("Invalid personas response:", personas);
+          setUserPersona([]);
         }
-
-        setuserPersona(personas);
       } catch (err) {
-        console.error("Error fetching protected data", err);
-        setuserPersona([]);
+        console.error("Error fetching personas:", err);
+        setUserPersona([]);
       } finally {
         setIsLoading(false);
       }
     };
 
-    getuserPersona();
+    getUserPersona();
   }, []);
 
   return (
@@ -64,19 +63,24 @@ const Homepage: React.FC = () => {
       <div className="mt-6">
         {isLoading ? (
           <p className="text-blue-500">Loading...</p>
-        ) : userPersona && userPersona.length > 0 ? (
-
+        ) : userPersona.length === 0 ? (
+          <p className="text-red-500">No persona.</p>
+        ) : (
           <ul className="space-y-4 list-none">
             {userPersona.map((user) => (
-              <li key={user._id} className="border p-4 rounded-lg shadow">
+              <li
+                key={user._id}
+                className="border p-4 rounded-lg shadow bg-white"
+              >
                 <h3 className="text-xl font-bold">{user.name}</h3>
+                <p className="mt-1 text-sm text-gray-600">{user.title}</p>
                 <p className="mt-2">{user.jobStatus}</p>
-                <p className="text-sm text-gray-600">{user.title}</p>
-                <p className="mt-2">{user.description}</p>
-                <div>
-                  <h4>Demographics & Psychographics</h4>
-                  <ul>
-                    beliefsAndValues
+                <p className="mt-2 text-gray-700">{user.description}</p>
+
+                {/* Demographics */}
+                <div className="mt-3">
+                  <h4 className="font-semibold">Demographics & Psychographics</h4>
+                  <ul className="list-disc pl-5 text-sm text-gray-700">
                     {user.demographicsAndPsychographics.details.map(
                       (item, idx) => (
                         <li key={idx}>{item}</li>
@@ -84,9 +88,11 @@ const Homepage: React.FC = () => {
                     )}
                   </ul>
                 </div>
-                <div>
-                  <h4>Beliefs & Values</h4>
-                  <ul>
+
+                {/* Beliefs */}
+                <div className="mt-3">
+                  <h4 className="font-semibold">Beliefs & Values</h4>
+                  <ul className="list-disc pl-5 text-sm text-gray-700">
                     {user.beliefsAndValues.details.map((item, idx) => (
                       <li key={idx}>{item}</li>
                     ))}
@@ -95,8 +101,6 @@ const Homepage: React.FC = () => {
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="text-red-500">No persona.</p>
         )}
       </div>
     </div>
@@ -104,4 +108,3 @@ const Homepage: React.FC = () => {
 };
 
 export default Homepage;
-
